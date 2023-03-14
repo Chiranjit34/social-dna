@@ -15,17 +15,17 @@ function App() {
       <Navbar />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LandingScreen/>} />
+          <Route path="/" element={<LandingScreen />} />
           <Route path="/home" element={<Homescreen />} />
+          <Route path="/register" element={<RegisterScreen />} />
+          <Route path="/login" element={<LoginScreen />} />
+          <Route path="/profile" element={<ProfileScreen />} />
+          <Route path="/bookings" element={<ProfileScreen />} />
+          <Route path="/admin" element={<AdminScreen />} />
           <Route
             path="/book/:roomid/:fromdate/:todate"
-            element={<Bookingscreen/>}
+            element={<Bookingscreen />}
           />
-          <Route path="/register" element={<RegisterScreen/>} />
-          <Route path="/login" element={<LoginScreen/>} />
-          <Route path="/profile" element={<ProfileScreen/>} />
-          <Route path="/bookings" element={<ProfileScreen/>} />
-          <Route path="/admin" element={<AdminScreen/>} />
         </Routes>
       </BrowserRouter>
     </div>

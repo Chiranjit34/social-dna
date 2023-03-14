@@ -20,7 +20,6 @@ function Homescreen() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [rooms, setRooms] = useState([]);
-
   const [fromDate, setFromDate] = useState();
   const [toDate, setToDate] = useState();
   const [duplicateRooms, setDuplicateRooms] = useState([]);
@@ -35,7 +34,7 @@ function Homescreen() {
         const res = (
           await axios.get(`${api}/api/rooms/getallrooms`)
         );
-        console.log(res.data);
+        // console.log(res.data);
         setRooms(res.data);
         setDuplicateRooms(res.data);
       } catch (error) {
@@ -51,9 +50,11 @@ function Homescreen() {
   function filterByDate(dates) {
     // console.log(moment(dates[0]).format("DD-MM-YYYY"));
     // console.log(moment(dates[1]).format("DD-MM-YYYY"));
+    console.log(dates);
+   
     try {
-      setFromDate(moment(dates[0]).format("DD-MM-YYYY"));
-      setToDate(moment(dates[1]).format("DD-MM-YYYY"));
+       setFromDate(moment(dates[0].$d).format("DD-MM-YYYY"));
+       setToDate(moment(dates[1].$d).format("DD-MM-YYYY"));
 
       var tempRooms = [];
       for (const room of duplicateRooms) {

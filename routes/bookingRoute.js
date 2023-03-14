@@ -1,5 +1,7 @@
 const express = require("express");
 const moment = require("moment");
+const stripe = require("stripe")(process.env.stripe);
+// const Razorpay = require("razorpay");
 
 const router = express.Router();
 
@@ -48,7 +50,6 @@ router.post("/getbookingbyuserid", async (req, res) => {
   }
 });
 
-
 router.post("/bookroom", async (req, res) => {
   try {
     const { room, userid, fromdate, todate, totalAmount, totaldays, token } =
@@ -68,10 +69,12 @@ router.post("/bookroom", async (req, res) => {
           receipt_email: token.email,
         },
         {
-          idempotencyKey: Math.floor(Math.random() * (99999999 - 10000) + 10000),
+          idempotencyKey: Math.floor(
+            Math.random() * (99999999 - 10000) + 10000
+          ),
         }
       );
-        console.log("payment",payment);
+      console.log("payment", payment);
       if (payment) {
         try {
           const newBooking = new Booking({
@@ -82,11 +85,13 @@ router.post("/bookroom", async (req, res) => {
             todate: moment(todate).format("DD-MM-YYYY"),
             totalamount: totalAmount,
             totaldays,
-            transactionid: Math.floor(Math.random() * (99999999 - 10000) + 10000),
+            transactionid: Math.floor(
+              Math.random() * (99999999 - 10000) + 10000
+            ),
           });
 
           console.log("newbooking", newBooking);
-          
+
           const booking = await newBooking.save();
 
           const roomTmp = await Room.findOne({ _id: room._id });
@@ -97,7 +102,7 @@ router.post("/bookroom", async (req, res) => {
             userid: userid,
             status: booking.status,
           });
-
+          // await Room.updateOne({ _id: room._id }, { $set: roomTmp });
           await roomTmp.save();
           res.send("Payment Successful, Your Room is booked");
         } catch (error) {
@@ -112,5 +117,72 @@ router.post("/bookroom", async (req, res) => {
   }
 });
 
+// router.post("/bookroom", async (req, res) => {
+//   try {
+//     const { room, userid, fromdate, todate, totalAmount, totaldays, token } =
+//       req.body;
+
+//     try {
+//       const instance = new Razorpay({
+//         key_id: "rzp_test_wqrXQCkNYQjlov",
+//         // key_id: process.env.key,
+//         key_secret: "wXhmVfwpkngBeB0iWBKJXrSS",
+//         // key_secret: process.env.id,
+//       });
+
+//       const options = {
+//         amount: Number(amount * 100),
+//         currency: "INR",
+//       };
+//       const payment = await instance.orders.create(options, function (err, order) {
+//         if (err) {
+//           console.error(err);
+//         } else {
+//           res.status(200).json({ order: order });
+//         }
+//       });
+//       console.log("payment", payment);
+
+//       if (payment) {
+//         try {
+//           const newBooking = new Booking({
+//             room: room.name,
+//             roomid: room._id,
+//             userid,
+//             fromdate: moment(fromdate).format("DD-MM-YYYY"),
+//             todate: moment(todate).format("DD-MM-YYYY"),
+//             totalamount: totalAmount,
+//             totaldays,
+//             transactionid: Math.floor(
+//               Math.random() * (99999999 - 10000) + 10000
+//             ),
+//           });
+
+//           console.log("newbooking", newBooking);
+
+//           const booking = await newBooking.save();
+
+//           const roomTmp = await Room.findOne({ _id: room._id });
+//           roomTmp.currentbookings.push({
+//             bookingid: booking._id,
+//             fromdate: moment(fromdate).format("DD-MM-YYYY"),
+//             todate: moment(todate).format("DD-MM-YYYY"),
+//             userid: userid,
+//             status: booking.status,
+//           });
+
+//           await roomTmp.save();
+//           res.send("Payment Successful, Your Room is booked");
+//         } catch (error) {
+//           return res.status(400).json({ message: error });
+//         }
+//       }
+//     } catch (error) {
+//       return res.status(400).json({ message: error });
+//     }
+//   } catch (error) {
+//     return res.status(400).json({ message: error });
+//   }
+// });
 
 module.exports = router;

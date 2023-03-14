@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Tabs } from "antd";
 import { Tag } from "antd";
 import MyBookingScreen from "./MyBookingScreen";
@@ -41,7 +41,7 @@ function ProfileScreen() {
           </div>
         </TabPane>
         <TabPane tab="Booking" key="2">
-          <MyBookingScreen/>
+          <MyBookingScreen />
         </TabPane>
       </Tabs>
     </div>
