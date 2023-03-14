@@ -6,7 +6,7 @@ import StripeCheckout from "react-stripe-checkout";
 import Swal from "sweetalert2";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
-// import {api} from "../components/api";
+import { api } from "../api";
 
 function Bookingscreen() {
   const [loading, setLoading] = useState(true);
@@ -16,6 +16,7 @@ function Bookingscreen() {
   const [totalDays, setTotalDays] = useState(0);
 
   const params = useParams();
+  console.log(params);
   const fromdate = moment(params.fromdate, "DD-MM-YYYY");
   const todate = moment(params.todate, "DD-MM-YYYY");
 
@@ -28,15 +29,13 @@ function Bookingscreen() {
       try {
         setError("");
         setLoading(true);
-        const data = (
-          await axios.post("/api/rooms/getroombyid", {
-            roomid: params.roomid,
-          })
-        ).data;
-        console.log(data);
-        setRoom(data);
+        const res = await axios.post(`${api}/api/rooms/getroombyid`, {
+          roomid: params.roomid,
+        });
+        // console.log(res.data);
+        setRoom(res.data);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
         setError(error);
       }
       setLoading(false);
@@ -52,10 +51,10 @@ function Bookingscreen() {
   }, [room]);
 
   const onToken = async (token) => {
-    console.log(token);
+    // console.log(token);
     const bookingDetails = {
       room,
-      userid: JSON.parse(localStorage.getItem("currentUser"))._id,
+      userid: JSON.parse(localStorage.getItem("currentUser")).data._id,
       fromdate,
       todate,
       totalAmount,
@@ -65,7 +64,7 @@ function Bookingscreen() {
 
     try {
       setLoading(true);
-      const result = await axios.post("api/bookroom", bookingDetails);
+      const result = await axios.post(`${api}/api/bookings/bookroom`, bookingDetails);
       // console.log(result);
       setLoading(false);
       Swal.fire(
@@ -95,19 +94,23 @@ function Bookingscreen() {
             <img src={room.imageurls[0]} alt="" className="bigimg" />
           </div>
           <div className="col-md-6">
-            <div style={{ textAlign: "right" }}>
+                <div
+                  // style={{ textAlign: "right" }}
+                >
               <h1>Booking Details</h1>
               <hr />
               <b>
                 <p>
-                  Name : {JSON.parse(localStorage.getItem("currentUser")).name}
+                  Name : {JSON.parse(localStorage.getItem("currentUser")).data.name}
                 </p>
                 <p>From Date : {params.fromdate}</p>
                 <p>To Date : {params.todate}</p>
                 <p>Max People Allowed : {room.maxcount}</p>
               </b>
             </div>
-            <div style={{ textAlign: "right" }}>
+                <div
+                  // style={{ textAlign: "right" }}
+                >
               <h1>Amount</h1>
               <hr />
               <b>

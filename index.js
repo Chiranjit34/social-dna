@@ -11,10 +11,10 @@ const app = express();
 
 const port = process.env.PORT || 8080;
 const mongo_url = process.env.MONGO_URL
-// const mongo_url = "mongodb://127.0.0.1:27017/hotel"
 
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use("/api/rooms", roomsRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/bookings", bookingRoute);
@@ -22,6 +22,7 @@ app.use("/api/bookings", bookingRoute);
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+
 
 mongoose
   .connect(mongo_url, {

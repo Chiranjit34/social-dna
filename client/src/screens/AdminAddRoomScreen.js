@@ -4,6 +4,7 @@ import { Form, Input, InputNumber, Button, Select } from "antd";
 import Swal from "sweetalert2";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
+import { api } from "../api";
 
 
 const layout = {
@@ -34,8 +35,8 @@ function AdminAddRoomScreen() {
     setError("");
     setLoading(true);
     try {
-      const data = (await axios.post("/api/rooms/addroom", values)).data;
-      // console.log(data);
+      const res = (await axios.post(`${api}/api/rooms/addroom`, values));
+      // console.log(res.data);
       Swal.fire("Congratulations", "Your Room Added Successfully", "success");
       form.resetFields();
     } catch (error) {

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Tag } from "antd";
-
 import Loader from "../components/Loader";
 import Error from "../components/Error";
+import { api } from "../api";
 
 function MyBookingScreen() {
   const [bookings, setBookings] = useState([]);
@@ -17,12 +17,12 @@ function MyBookingScreen() {
     setError("");
     setLoading(true);
     try {
-      const data = (
-        await axios.post("/api/bookings/getbookingbyuserid", {
+      const res = (
+        await axios.post(`${api}/api/bookings/getbookingbyuserid`, {
           userid: user._id,
         })
-      ).data;
-      setBookings(data);
+      );
+      setBookings(res.data);
     } catch (error) {
       console.log(error);
       setError(error);
@@ -38,12 +38,10 @@ function MyBookingScreen() {
     setError("");
     setLoading(true);
     try {
-      const data = (
-        await axios.post("/api/bookings/cancelbooking", {
-          bookingid,
-          roomid,
-        })
-      ).data;
+      const res = await axios.post(`${api}/api/bookings/cancelbooking`, {
+        bookingid,
+        roomid,
+      });
       setLoading(false);
       Swal.fire(
         "Congratulations",

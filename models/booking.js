@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const bookingSchema = mongoose.Schema(
   {
     room: { type: String, required: true },
-    status: { type: String, required: true, default: "booked" },
+    status: { type: String, default: "booked" },
     transactionid: { type: String, required: true },
     roomid: { type: String, required: true },
     userid: { type: String, required: true },

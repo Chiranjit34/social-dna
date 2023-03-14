@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import "antd/dist/antd.css";
-import { DatePicker } from "antd";
+import { DatePicker, Space } from "antd";
 import moment from "moment";
-// import {api} from "../api"
+import {api} from "../api"
 import Room from "../components/Room";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
@@ -33,12 +32,12 @@ function Homescreen() {
       try {
         setError("");
         setLoading(true);
-        const data = (
-          await axios.get("/api/rooms/getallrooms")
-        ).data;
-        // console.log(data);
-        setRooms(data);
-        setDuplicateRooms(data);
+        const res = (
+          await axios.get(`${api}/api/rooms/getallrooms`)
+        );
+        console.log(res.data);
+        setRooms(res.data);
+        setDuplicateRooms(res.data);
       } catch (error) {
         console.log(error);
         setError(error);
@@ -114,7 +113,9 @@ function Homescreen() {
     <div className="container">
       <div className="row mt-5 bs">
         <div className="col-md-3">
-          <RangePicker format="DD-MM-YYYY" onChange={filterByDate} />
+          <Space direction="vertical" size={12}>
+            <RangePicker format="DD-MM-YYYY" onChange={filterByDate} />
+          </Space>
         </div>
 
         <div className="col-md-5">
@@ -146,9 +147,9 @@ function Homescreen() {
 
       <div className="row justify-content-center mt-5">
         {loading ? (
-          <Loader/>
+          <Loader />
         ) : error.length > 0 ? (
-          <Error msg={error}/>
+          <Error msg={error} />
         ) : (
           rooms.map((x) => {
             return (

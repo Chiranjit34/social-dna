@@ -1,9 +1,5 @@
 const express = require("express");
 const moment = require("moment");
-const stripe = require("stripe")(
-  "sk_test_51LiJiNSFM2DZrNaCnRF3SStx1tDwK5PKQpDklxtQA937lV8EkPljgSdr3zHDiHfvXrHodQkvlPaEYGapNtV8TXV000HV0m49rP"
-);
-const { v4: uuidv4 } = require("uuid");
 
 const router = express.Router();
 
@@ -48,9 +44,10 @@ router.post("/getbookingbyuserid", async (req, res) => {
     res.send(bookings);
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: error });
+    // return res.status(400).json({ message: error });
   }
 });
+
 
 router.post("/bookroom", async (req, res) => {
   try {
@@ -71,10 +68,10 @@ router.post("/bookroom", async (req, res) => {
           receipt_email: token.email,
         },
         {
-          idempotencyKey: uuidv4(),
+          idempotencyKey: Math.floor(Math.random() * (99999999 - 10000) + 10000),
         }
       );
-
+        console.log("payment",payment);
       if (payment) {
         try {
           const newBooking = new Booking({
@@ -85,11 +82,13 @@ router.post("/bookroom", async (req, res) => {
             todate: moment(todate).format("DD-MM-YYYY"),
             totalamount: totalAmount,
             totaldays,
-            transactionid: uuidv4(),
+            transactionid: Math.floor(Math.random() * (99999999 - 10000) + 10000),
           });
 
-          const booking = await newBooking.save();
+          console.log("newbooking", newBooking);
           
+          const booking = await newBooking.save();
+
           const roomTmp = await Room.findOne({ _id: room._id });
           roomTmp.currentbookings.push({
             bookingid: booking._id,
@@ -112,5 +111,6 @@ router.post("/bookroom", async (req, res) => {
     return res.status(400).json({ message: error });
   }
 });
+
 
 module.exports = router;

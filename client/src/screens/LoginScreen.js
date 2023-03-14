@@ -3,6 +3,7 @@ import axios from "axios";
 
 import Loader from "../components/Loader";
 import Error from "../components/Error";
+import { api } from "../api";
 
 function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -19,8 +20,8 @@ function LoginScreen() {
     };
     //console.log(user);
     try {
-      const result = (await axios.post("/api/users/login", user)).data;
-      console.log(result);
+      const result = (await axios.post(`${api}/api/users/login`, user));
+      console.log(result.data);
       localStorage.setItem("currentUser", JSON.stringify(result));
       window.location.href = "/home";
     } catch (error) {

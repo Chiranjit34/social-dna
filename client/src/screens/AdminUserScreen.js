@@ -4,6 +4,7 @@ import { Table, Tag } from "antd";
 
 import Loader from "../components/Loader";
 import Error from "../components/Error";
+import { api } from "../api";
 
 function AdminUserScreen() {
   const [users, setUsers] = useState([]);
@@ -39,8 +40,8 @@ function AdminUserScreen() {
     setError("");
     setLoading(true);
     try {
-      const data = (await axios.post("/api/users/getallusers")).data;
-      setUsers(data);
+      const res = await axios.post(`${api}/api/users/getallusers`);
+      setUsers(res.data);
     } catch (error) {
       console.log(error);
       setError(error);

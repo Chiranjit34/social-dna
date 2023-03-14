@@ -3,6 +3,7 @@ import axios from "axios";
 import { Table, Tag } from "antd";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
+import { api } from "../api";
 
 function AdminBookingScreen() {
   const [bookings, setBookings] = useState([]);
@@ -39,8 +40,8 @@ function AdminBookingScreen() {
     setError("");
     setLoading(true);
     try {
-      const data = (await axios.post("/api/bookings/getallbookings")).data;
-      setBookings(data);
+      const res = await axios.post(`${api}/api/bookings/getallbookings`);
+      setBookings(res.data);
     } catch (error) {
       console.log(error);
       setError(error);
@@ -54,9 +55,9 @@ function AdminBookingScreen() {
   return (
     <div className="row">
       {loading ? (
-        <Loader/>
+        <Loader />
       ) : error.length > 0 ? (
-        <Error msg={error}/>
+        <Error msg={error} />
       ) : (
         <div className="col-md-12">
           <Table columns={columns} dataSource={bookings} />

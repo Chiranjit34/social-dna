@@ -4,6 +4,7 @@ import axios from "axios";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
 import Success from "../components/Success";
+import { api } from "../api";
 
 function RegisterScreen() {
   const [name, setName] = useState("");
@@ -28,9 +29,9 @@ function RegisterScreen() {
       setError("");
       setSuccess("");
       try {
-        const result = (await axios.post("/api/users/register", user)).data;
-        console.log(result);
-        setSuccess(result);
+        const result = (await axios.post(`${api}/api/users/register`, user));
+        console.log(result.data);
+        setSuccess(result.data);
         setName("");
         setEmail("");
         setPassword("");
