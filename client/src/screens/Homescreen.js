@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { DatePicker, Space } from "antd";
 import moment from "moment";
-import {api} from "../api"
+import { api } from "../api";
 import Room from "../components/Room";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
@@ -25,15 +25,14 @@ function Homescreen() {
   const [duplicateRooms, setDuplicateRooms] = useState([]);
   const [searchKey, setSearchKey] = useState("");
   const [type, setType] = useState("all");
+  const [rentperday, setRentperday] = useState("");
 
   useEffect(() => {
     async function fetchMyAPI() {
       try {
         setError("");
         setLoading(true);
-        const res = (
-          await axios.get(`${api}/api/rooms/getallrooms`)
-        );
+        const res = await axios.get(`${api}/api/rooms/getallrooms`);
         // console.log(res.data);
         setRooms(res.data);
         setDuplicateRooms(res.data);
@@ -51,10 +50,10 @@ function Homescreen() {
     // console.log(moment(dates[0]).format("DD-MM-YYYY"));
     // console.log(moment(dates[1]).format("DD-MM-YYYY"));
     console.log(dates);
-   
+
     try {
-       setFromDate(moment(dates[0].$d).format("DD-MM-YYYY"));
-       setToDate(moment(dates[1].$d).format("DD-MM-YYYY"));
+      setFromDate(moment(dates[0].$d).format("DD-MM-YYYY"));
+      setToDate(moment(dates[1].$d).format("DD-MM-YYYY"));
 
       var tempRooms = [];
       for (const room of duplicateRooms) {
@@ -110,6 +109,23 @@ function Homescreen() {
     }
   }
 
+  function filterByPrice(rentperday) {
+    setRentperday(rentperday);
+    // console.log(rentperday);
+    let tempRooms;
+    for (let i = 0; i < duplicateRooms.length; i++) {
+      if (rentperday === "price-low-to-high") {
+        tempRooms = duplicateRooms.sort((a, b) => a.rentperday - b.rentperday);
+        setRooms(tempRooms);
+      } else if (rentperday === "price-high-to-low") {
+        tempRooms = duplicateRooms.sort((a, b) => b.rentperday - a.rentperday);
+        setRooms(tempRooms);
+      } else {
+        setRooms(duplicateRooms);
+      }
+    }
+  }
+
   return (
     <div className="container">
       <div className="row mt-5 bs">
@@ -119,7 +135,7 @@ function Homescreen() {
           </Space>
         </div>
 
-        <div className="col-md-5">
+        <div className="col-md-4">
           <input
             type="text"
             className="form-control"
@@ -132,6 +148,19 @@ function Homescreen() {
           />
         </div>
         <div className="col-md-3">
+          <select
+            className="form-control"
+            value={rentperday}
+            onChange={(e) => {
+              filterByPrice(e.target.value);
+            }}
+          >
+            <option value="popularity">Popularity</option>
+            <option value="price-low-to-high">Price low to high</option>
+            <option value="price-high-to-low">Price high to low</option>
+          </select>
+        </div>
+        <div className="col-md-2">
           <select
             className="form-control"
             value={type}
@@ -155,7 +184,11 @@ function Homescreen() {
           rooms.map((x) => {
             return (
               <div className="col-md-9 mt-3" data-aos="flip-down">
-                <Room room={x} fromDate={fromDate} toDate={toDate} />
+                <Room
+                  room={x}
+                  fromDate={fromDate}
+                  toDate={toDate}
+                />
               </div>
             );
           })

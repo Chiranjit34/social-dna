@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Modal, Button, Carousel } from "react-bootstrap";
 import {  Link } from "react-router-dom";
 
@@ -19,6 +19,7 @@ function Room({ room, fromDate, toDate }) {
           <p>Max People Allowed : {room.maxcount}</p>
           <p>Contact Number : {room.phonenumber}</p>
           <p>Type : {room.type}</p>
+          <p>Rent Per Day: {room.rentperday}</p>
         </b>
 
         <div style={{ float: "right" }}>
