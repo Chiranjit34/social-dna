@@ -23,6 +23,7 @@ function LoginScreen() {
       const result = (await axios.post(`${api}/api/users/login`, user));
       console.log(result.data);
       localStorage.setItem("currentUser", JSON.stringify(result));
+      localStorage.setItem("tokenStore", result.data.token);
       window.location.href = "/home";
     } catch (error) {
       console.log(error);
