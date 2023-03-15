@@ -43,6 +43,7 @@ router.post("/addroom", async (req, res) => {
     room.rentperday = newRoom.rentperday;
     room.type = newRoom.type;
     room.description = newRoom.description;
+    room.locality = newRoom.locality;
     room.currentbookings = [];
     if (newRoom.imageurl1 && newRoom.imageurl1.length > 0) {
       room.imageurls.push(newRoom.imageurl1);

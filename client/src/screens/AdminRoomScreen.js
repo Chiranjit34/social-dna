@@ -25,6 +25,7 @@ function AdminRoomScreen() {
     { title: "maxcount", dataIndex: "maxcount", key: "maxcount" },
     { title: "phonenumber", dataIndex: "phonenumber", key: "phonenumber" },
     { title: "rentperday", dataIndex: "rentperday", key: "rentperday" },
+    { title: "locality", dataIndex: "locality", key: "locality" },
     { title: "type", dataIndex: "type", key: "type" },
   ];
 
@@ -53,11 +54,11 @@ function AdminRoomScreen() {
         <Error msg={error}/>
       ) : (
         <>
-          <div className="col md-12">
+          <>
             <button className="btn btn-success" onClick={fetchMyData}>
               Refresh
             </button>
-          </div>
+          </>
           <div className="col-md-12">
             <Table columns={columns} dataSource={rooms} />
           </div>

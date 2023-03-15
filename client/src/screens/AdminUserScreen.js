@@ -36,6 +36,7 @@ function AdminUserScreen() {
     },
   ];
 
+
   async function fetchMyData() {
     setError("");
     setLoading(true);
@@ -55,12 +56,19 @@ function AdminUserScreen() {
   return (
     <div className="row">
       {loading ? (
-        <Loader/>
+        <Loader />
       ) : error.length > 0 ? (
-        <Error msg={error}/>
+        <Error msg={error} />
       ) : (
         <div className="col-md-12">
-          <Table columns={columns} dataSource={users} />
+          <div className="col md-12">
+            <button className="btn btn-success" onClick={fetchMyData}>
+              Refresh
+            </button>
+          </div>
+          <div className="col-md-12">
+            <Table columns={columns} dataSource={users} />
+          </div>
         </div>
       )}
     </div>

@@ -6,7 +6,6 @@ import Loader from "../components/Loader";
 import Error from "../components/Error";
 import { api } from "../api";
 
-
 const layout = {
   labelCol: {
     span: 4,
@@ -22,7 +21,6 @@ const tailLayout = {
   },
 };
 
-
 function AdminAddRoomScreen() {
   const { Option } = Select;
   const [loading, setLoading] = useState(false);
@@ -35,7 +33,7 @@ function AdminAddRoomScreen() {
     setError("");
     setLoading(true);
     try {
-      const res = (await axios.post(`${api}/api/rooms/addroom`, values));
+      const res = await axios.post(`${api}/api/rooms/addroom`, values);
       // console.log(res.data);
       Swal.fire("Congratulations", "Your Room Added Successfully", "success");
       form.resetFields();
@@ -68,7 +66,7 @@ function AdminAddRoomScreen() {
           >
             <Form.Item
               name="name"
-              label="name"
+              label="Name"
               rules={[
                 {
                   required: true,
@@ -79,7 +77,7 @@ function AdminAddRoomScreen() {
             </Form.Item>
             <Form.Item
               name="description"
-              label="description"
+              label="Description"
               rules={[
                 {
                   required: true,
@@ -90,7 +88,7 @@ function AdminAddRoomScreen() {
             </Form.Item>
             <Form.Item
               name="maxcount"
-              label="maxcount"
+              label="Max People Allowed"
               rules={[
                 {
                   required: true,
@@ -101,7 +99,18 @@ function AdminAddRoomScreen() {
             </Form.Item>
             <Form.Item
               name="phonenumber"
-              label="phonenumber"
+              label="Contact Number"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name="locality"
+              label="Locality"
               rules={[
                 {
                   required: true,
@@ -112,7 +121,7 @@ function AdminAddRoomScreen() {
             </Form.Item>
             <Form.Item
               name="rentperday"
-              label="rentperday"
+              label="Rent Per Day"
               rules={[
                 {
                   required: true,
@@ -123,7 +132,7 @@ function AdminAddRoomScreen() {
             </Form.Item>
             <Form.Item
               name="imageurl1"
-              label="imageurl1"
+              label="Image url 1"
               rules={[
                 {
                   required: true,
@@ -134,7 +143,7 @@ function AdminAddRoomScreen() {
             </Form.Item>
             <Form.Item
               name="imageurl2"
-              label="imageurl2"
+              label="Image url 2"
               rules={[
                 {
                   //required: true,
@@ -143,34 +152,26 @@ function AdminAddRoomScreen() {
             >
               <Input />
             </Form.Item>
-            <Form.Item
-              name="imageurl3"
-              label="imageurl3"
-            >
+            <Form.Item name="imageurl3" label="Image url 3">
               <Input />
             </Form.Item>
-            <Form.Item
-              name="imageurl4"
-              label="imageurl4"
-            >
+            <Form.Item name="imageurl4" label="Image url 4">
               <Input />
             </Form.Item>
-            <Form.Item
-              name="imageurl5"
-              label="imageurl5"
-            >
+            <Form.Item name="imageurl5" label="Image url 5">
               <Input />
             </Form.Item>
+
             <Form.Item
               name="type"
-              label="type"
+              label="Type"
               rules={[
                 {
                   required: true,
                 },
               ]}
             >
-              <Select placeholder="Select a room type" allowClear>
+              <Select placeholder="Select a room type" allowClear >
                 <Option value="delux">Delux</Option>
                 <Option value="non-delux">Non-Delux</Option>
               </Select>

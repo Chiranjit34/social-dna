@@ -45,6 +45,7 @@ function Homescreen() {
 
     fetchMyAPI();
   }, []);
+  console.log(rooms);
 
   function filterByDate(dates) {
     // console.log(moment(dates[0]).format("DD-MM-YYYY"));
@@ -91,11 +92,14 @@ function Homescreen() {
   }
 
   function filterBySearch() {
-    const tempRooms = duplicateRooms.filter((x) =>
-      x.name.toLowerCase().includes(searchKey.toLowerCase())
+    const tempRooms = duplicateRooms.filter(
+      (x) =>
+        x.name.toLowerCase().includes(searchKey.toLowerCase()) ||
+        x.locality.toLowerCase().includes(searchKey.toLowerCase())
     );
     setRooms(tempRooms);
   }
+
   function filterByType(type) {
     setType(type);
     console.log(type);
@@ -139,7 +143,7 @@ function Homescreen() {
           <input
             type="text"
             className="form-control"
-            placeholder="search rooms"
+            placeholder="Search By Hotel Name Or Location"
             value={searchKey}
             onChange={(e) => {
               setSearchKey(e.target.value);

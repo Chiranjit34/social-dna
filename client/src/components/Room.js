@@ -18,6 +18,7 @@ function Room({ room, fromDate, toDate }) {
         <b>
           <p>Max People Allowed : {room.maxcount}</p>
           <p>Contact Number : {room.phonenumber}</p>
+          <p>Location : {room.locality}</p>
           <p>Type : {room.type}</p>
           <p>Rent Per Day: {room.rentperday}</p>
         </b>
@@ -56,7 +57,9 @@ function Room({ room, fromDate, toDate }) {
               );
             })}
           </Carousel>
-          <p>{room.description}</p>
+          <p className="mt-4">{room.description}</p>
+          <p>Location : {room.locality}</p>
+          <p>Rent Per Day : {room.rentperday}</p>
         </Modal.Body>
         {/* <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

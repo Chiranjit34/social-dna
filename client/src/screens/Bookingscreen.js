@@ -94,23 +94,27 @@ function Bookingscreen() {
             <img src={room.imageurls[0]} alt="" className="bigimg" />
           </div>
           <div className="col-md-6">
-                <div
-                  // style={{ textAlign: "right" }}
-                >
+            <div
+            // style={{ textAlign: "right" }}
+            >
               <h1>Booking Details</h1>
               <hr />
               <b>
                 <p>
-                  Name : {JSON.parse(localStorage.getItem("currentUser")).data.name}
+                  Name :{" "}
+                  {JSON.parse(localStorage.getItem("currentUser")).data.name}
+                </p>
+                <p>
+                  Location : {room.locality}
                 </p>
                 <p>From Date : {params.fromdate}</p>
                 <p>To Date : {params.todate}</p>
                 <p>Max People Allowed : {room.maxcount}</p>
               </b>
             </div>
-                <div
-                  // style={{ textAlign: "right" }}
-                >
+            <div
+            // style={{ textAlign: "right" }}
+            >
               <h1>Amount</h1>
               <hr />
               <b>

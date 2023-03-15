@@ -23,17 +23,18 @@ function AdminScreen() {
     <div className="ml-3 mt-3 mr-3 bs">
       <h1 className="text-center">Admin Panel</h1>
       <Tabs defaultActiveKey="1" onChange={callback}>
-        <TabPane tab="Bookings" key="1">
-          <AdminBookingScreen/>
-        </TabPane>
         <TabPane tab="Rooms" key="2">
-          <AdminRoomScreen/>
-        </TabPane>
-        <TabPane tab="Add Room" key="3">
-          <AdminAddRoomScreen/>
+          <AdminRoomScreen />
         </TabPane>
         <TabPane tab="Users" key="4">
-          <AdminUserScreen/>
+          <AdminUserScreen />
+        </TabPane>
+        <TabPane tab="Add Room" key="3">
+          <AdminAddRoomScreen />
+        </TabPane>
+
+        <TabPane tab="Bookings" key="1">
+          <AdminBookingScreen />
         </TabPane>
       </Tabs>
     </div>
