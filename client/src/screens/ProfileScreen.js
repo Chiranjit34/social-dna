@@ -7,6 +7,7 @@ const { TabPane } = Tabs;
 
 function ProfileScreen() {
   const user = JSON.parse(localStorage.getItem("currentUser"));
+  // console.log(user);
 
   useEffect(() => {
     if (!user) {
@@ -26,8 +27,8 @@ function ProfileScreen() {
             <div className="col-xs-12 ml-5 mb-5">
               <div className="bs">
                 <p>My Profile</p>
-                <p>Name : {user.name}</p>
-                <p>Email : {user.email}</p>
+                <p>Name : {user.data.name}</p>
+                <p>Email : {user.data.email}</p>
                 <p>
                   IsAdmin :{" "}
                   {user.isAdmin ? (
